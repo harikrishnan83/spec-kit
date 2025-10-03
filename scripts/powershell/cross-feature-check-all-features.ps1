@@ -73,8 +73,22 @@ if (Test-Path $Template) {
     New-Item -ItemType File -Path $AnalysisFile -Force | Out-Null
 }
 
-# Add clarification line to current spec.md for /clarify to pick up
-$ClarificationLine = "- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
+# Extract clarification line from template to avoid duplication
+$CommandTemplate = Join-Path $RepoRoot "templates" "commands" "cross-feature.md"
+$ClarificationLine = ""
+
+if (Test-Path $CommandTemplate) {
+    # Extract the clarification message from the template (it's in backticks on line with "Add:")
+    $TemplateContent = Get-Content $CommandTemplate -Raw
+    if ($TemplateContent -match 'Add: `([^`]+)`') {
+        $ClarificationLine = $matches[1]
+    }
+}
+
+# Fallback if extraction fails
+if ([string]::IsNullOrWhiteSpace($ClarificationLine)) {
+    $ClarificationLine = "- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
+}
 
 # Find the Requirements section and add the clarification line
 if (Test-Path $CurrentSpec) {

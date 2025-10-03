@@ -42,6 +42,7 @@ Given the current feature specification and optional analysis focus, do this:
 7. Add a single clarification line to the current spec.md file in the Requirements section:
    - Add: `- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]`
    - This ensures `/clarify` will pick up alignment issues naturally
+   - **Note:** Scripts should extract this clarification text programmatically from this template to avoid duplication
 
 8. Report completion with analysis file path, key alignment insights discovered, and any clarification needs identified.
 
