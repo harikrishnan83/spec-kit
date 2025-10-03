@@ -63,10 +63,10 @@ if (Test-Path $SpecsDir) {
 
 # Create analysis file in current feature directory
 $FeatureDir = Split-Path -Parent $CurrentSpec
-$AnalysisFile = Join-Path $FeatureDir "alignment-analysis.md"
+$AnalysisFile = Join-Path $FeatureDir "cross-feature-analysis.md"
 
 # Create analysis file from template
-$Template = Join-Path $RepoRoot "templates" "alignment-analysis-template.md"
+$Template = Join-Path $RepoRoot "templates" "cross-feature-analysis-template.md"
 if (Test-Path $Template) {
     Copy-Item $Template $AnalysisFile
 } else {
@@ -74,14 +74,14 @@ if (Test-Path $Template) {
 }
 
 # Add clarification line to current spec.md for /clarify to pick up
-$ClarificationLine = "- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in alignment-analysis.md - potential conflicts identified that may require spec adjustments]"
+$ClarificationLine = "- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
 
 # Find the Requirements section and add the clarification line
 if (Test-Path $CurrentSpec) {
     $SpecContent = Get-Content $CurrentSpec -Raw
 
     # Check if the clarification line already exists to avoid duplicates
-    if (-not $SpecContent.Contains("alignment-analysis.md")) {
+    if (-not $SpecContent.Contains("cross-feature-analysis.md")) {
         $Lines = Get-Content $CurrentSpec
         $NewLines = @()
         $Added = $false

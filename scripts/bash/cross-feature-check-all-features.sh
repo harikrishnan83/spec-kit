@@ -67,10 +67,10 @@ fi
 
 # Create analysis file in current feature directory
 FEATURE_DIR="$(dirname "$CURRENT_SPEC")"
-ANALYSIS_FILE="$FEATURE_DIR/alignment-analysis.md"
+ANALYSIS_FILE="$FEATURE_DIR/cross-feature-analysis.md"
 
 # Create analysis file from template
-TEMPLATE="$REPO_ROOT/templates/alignment-analysis-template.md"
+TEMPLATE="$REPO_ROOT/templates/cross-feature-analysis-template.md"
 if [ -f "$TEMPLATE" ]; then
     cp "$TEMPLATE" "$ANALYSIS_FILE"
 else
@@ -78,12 +78,12 @@ else
 fi
 
 # Add clarification line to current spec.md for /clarify to pick up
-CLARIFICATION_LINE="- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in alignment-analysis.md - potential conflicts identified that may require spec adjustments]"
+CLARIFICATION_LINE="- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
 
 # Find the Requirements section and add the clarification line
 if [ -f "$CURRENT_SPEC" ]; then
     # Check if the clarification line already exists to avoid duplicates
-    if ! grep -q "alignment-analysis.md" "$CURRENT_SPEC"; then
+    if ! grep -q "cross-feature-analysis.md" "$CURRENT_SPEC"; then
         # Find the line with "### Functional Requirements" and add our clarification after it
         if grep -q "### Functional Requirements" "$CURRENT_SPEC"; then
             # Use sed to add the line after "### Functional Requirements"
