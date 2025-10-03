@@ -2,12 +2,7 @@
 # Analyze current feature alignment with all existing features using systems thinking
 set -e
 
-# Detect platform for sed compatibility
-if [[ "$OSTYPE" == "darwin"* ]] || [[ "$(uname -s)" == "Darwin" ]]; then
-    SED_INPLACE="sed -i ''"
-else
-    SED_INPLACE="sed -i"
-fi
+# Platform detection is done inline where sed is used for better portability
 
 JSON_MODE=false
 ARGS=()
@@ -87,11 +82,13 @@ fi
 # Extract clarification line from template to avoid duplication
 COMMAND_TEMPLATE="$REPO_ROOT/templates/commands/cross-feature.md"
 if [ -f "$COMMAND_TEMPLATE" ]; then
-    # Extract the clarification message from the template (it's in backticks on line with "Add:")
-    CLARIFICATION_LINE=$(grep -A 1 "Add:" "$COMMAND_TEMPLATE" | grep "NEEDS CLARIFICATION" | sed 's/.*`\(.*\)`.*/\1/')
+    # Extract the clarification message from the template (handles both quotes and backticks)
+    CLARIFICATION_LINE=$(grep -A 1 "Add:" "$COMMAND_TEMPLATE" | grep "NEEDS CLARIFICATION" | sed 's/.*["'\''`]\(.*NEEDS CLARIFICATION.*\)["'\''`].*/\1/')
 fi
 
 # Fallback if extraction fails
+# NOTE: This fallback must match the clarification line in templates/commands/cross-feature.md
+# The template is the source of truth - update there first if changing this message
 if [ -z "$CLARIFICATION_LINE" ]; then
     CLARIFICATION_LINE="- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
 fi
@@ -102,15 +99,14 @@ if [ -f "$CURRENT_SPEC" ]; then
     if ! grep -q "cross-feature-analysis.md" "$CURRENT_SPEC"; then
         # Find the line with "### Functional Requirements" and add our clarification after it
         if grep -q "### Functional Requirements" "$CURRENT_SPEC"; then
-            # Use sed to add the line after "### Functional Requirements"
-            # Platform-specific sed syntax
-            if [[ "$OSTYPE" == "darwin"* ]] || [[ "$(uname -s)" == "Darwin" ]]; then
-                sed -i '' "/### Functional Requirements/a\\
-$CLARIFICATION_LINE
-" "$CURRENT_SPEC"
+            # Use portable sed in-place editing for macOS and GNU/Linux
+            if sed --version >/dev/null 2>&1; then
+                # GNU sed
+                sed -i "/### Functional Requirements/a\\$CLARIFICATION_LINE" "$CURRENT_SPEC"
             else
-                sed -i "/### Functional Requirements/a\\
-$CLARIFICATION_LINE" "$CURRENT_SPEC"
+                # BSD/macOS sed
+                sed -i.bak "/### Functional Requirements/a\\
+$CLARIFICATION_LINE" "$CURRENT_SPEC" && rm -f "$CURRENT_SPEC.bak"
             fi
         else
             # If no Functional Requirements section, add to end of file

@@ -78,14 +78,16 @@ $CommandTemplate = Join-Path $RepoRoot "templates" "commands" "cross-feature.md"
 $ClarificationLine = ""
 
 if (Test-Path $CommandTemplate) {
-    # Extract the clarification message from the template (it's in backticks on line with "Add:")
+    # Extract the clarification message from the template (handles both quotes and backticks)
     $TemplateContent = Get-Content $CommandTemplate -Raw
-    if ($TemplateContent -match 'Add: `([^`]+)`') {
+    if ($TemplateContent -match 'Add: ["''`]([^"''`]+)["''`]') {
         $ClarificationLine = $matches[1]
     }
 }
 
 # Fallback if extraction fails
+# NOTE: This fallback must match the clarification line in templates/commands/cross-feature.md
+# The template is the source of truth - update there first if changing this message
 if ([string]::IsNullOrWhiteSpace($ClarificationLine)) {
     $ClarificationLine = "- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]"
 }
