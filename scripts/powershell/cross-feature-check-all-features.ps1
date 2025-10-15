@@ -38,7 +38,7 @@ if ($HasGit) {
 }
 
 if ([string]::IsNullOrWhiteSpace($CurrentBranch) -or $CurrentBranch -eq "main" -or $CurrentBranch -eq "master") {
-    Write-Error "Error: Alignment analysis must be run from a feature branch (created by /specify)"
+    Write-Error "Error: Alignment analysis must be run from a feature branch (created by /speckit.specify)"
     exit 1
 }
 

@@ -44,7 +44,7 @@ else
 fi
 
 if [ -z "$CURRENT_BRANCH" ] || [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
-    echo "Error: Alignment analysis must be run from a feature branch (created by /specify)" >&2
+    echo "Error: Alignment analysis must be run from a feature branch (created by /speckit.specify)" >&2
     exit 1
 fi
 

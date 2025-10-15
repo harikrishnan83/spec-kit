@@ -5,7 +5,7 @@ scripts:
   ps: scripts/powershell/cross-feature-check-all-features.ps1 -Json "{ARGS}"
 ---
 
-The text the user typed after `/cross-feature` in the triggering message **is** optional analysis focus. If empty, perform comprehensive alignment analysis. Assume you always have it available in this conversation even if `{ARGS}` appears literally below.
+The text the user typed after `/speckit.cross-feature` in the triggering message **is** optional analysis focus. If empty, perform comprehensive alignment analysis. Assume you always have it available in this conversation even if `{ARGS}` appears literally below.
 
 Given the current feature specification and optional analysis focus, do this:
 
@@ -41,9 +41,9 @@ Given the current feature specification and optional analysis focus, do this:
 
 7. Add a single clarification line to the current spec.md file in the Requirements section:
    - Add: `- [NEEDS CLARIFICATION: Review cross-feature alignment analysis in cross-feature-analysis.md - potential conflicts identified that may require spec adjustments]`
-   - This ensures `/clarify` will pick up alignment issues naturally
+   - This ensures `/speckit.clarify` will pick up alignment issues naturally
    - **Note:** Scripts should extract this clarification text programmatically from this template to avoid duplication
 
 8. Report completion with analysis file path, key alignment insights discovered, and any clarification needs identified.
 
-Note: This command should be run after `/specify` but before `/plan` to ensure systems thinking informs the technical implementation planning phase.
+Note: This command should be run after `/speckit.specify` but before `/speckit.plan` to ensure systems thinking informs the technical implementation planning phase.
