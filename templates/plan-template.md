@@ -39,7 +39,7 @@
 
 ### Documentation (this feature)
 
-```
+```text
 specs/[###-feature]/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
@@ -57,7 +57,7 @@ specs/[###-feature]/
   not include Option labels.
 -->
 
-```
+```text
 # [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
 ├── models/
@@ -98,10 +98,9 @@ directories captured above]
 
 ## Complexity Tracking
 
-*Fill ONLY if Constitution Check has violations that must be justified*
+> **Fill ONLY if Constitution Check has violations that must be justified**
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
 | [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
 | [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
-
